@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import Qt.labs.settings
 
 
 import ClassHeatCalculator 1.0
@@ -87,6 +88,22 @@ Window {
     }
 
 
+    Settings{
+
+        property alias snapgrid: heatcurve.snaptogrid
+        property alias coord: heatcurve.showcoord
+        property alias formula: heatcurve.showformula
+        property alias hkcurve: heatcurve.showhk
+        property alias po1x: heatcurve.p1x
+        property alias po2x: heatcurve.p2x
+        property alias po1y: heatcurve.p1y
+        property alias po2y: heatcurve.p2y
+        property alias ttemp: heatcurve.temptag
+        property alias stemp: heatcurve.tempsummer
+
+    }
+
+
    Component.onCompleted: {
 
 
@@ -105,6 +122,8 @@ Window {
 
        calculator.setOilWirkungsgrad(97.0);
        calculator.setGasWirkungsgrad(98.0);
+
+       heatcurve.setupProperties()
 
    }
 

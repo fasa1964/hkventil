@@ -16,28 +16,6 @@ Page {
         }
     }
 
-
-//    Label{
-//        id: caption
-//        text: heatcurve.title
-//        anchors.horizontalCenter: parent.horizontalCenter
-//        anchors.top: parent.top
-//        anchors.topMargin: 10
-//        font.pointSize: captionsize
-//        font.letterSpacing: 2
-//        color: "white" // Blue Jay
-//    }
-
-//    Rectangle{
-//        id: line
-//        width: caption.width
-//        height: 1
-//        color: "white" // Blue Jay
-//        anchors.top: caption.bottom
-//        anchors.left: caption.left
-//    }
-
-
     property bool animation: false
 
     // App values
@@ -272,10 +250,43 @@ Page {
 
         var fx = m * x + b
 
-
         return fx
     }
     // !------------------------------
+
+    function setupProperties(){
+
+        if(heatcurve.snaptogrid)
+            snapbox.controlchecked = true
+        else
+            snapbox.controlchecked = false
+
+        if(heatcurve.showcoord)
+            coordbox.controlchecked = true
+        else
+            coordbox.controlchecked = false
+
+        if(heatcurve.showformula)
+            formulabox.controlchecked = true
+        else
+            formulabox.controlchecked = false
+
+        if(heatcurve.showhk)
+            hkbox.controlchecked = true
+        else
+            hkbox.controlchecked = false
+
+
+        tagspin.value = temptag
+        updateSummerTemp()
+
+
+        bn = yAchsenAbschnitt()
+        mn = steigung()
+        xn = getXAchse(0)
+
+        angle = getAlpha()
+    }
 
 
     function timerTriggered(){
@@ -303,8 +314,6 @@ Page {
             curvetimer.stop()
             animation = false
         }
-
-
     }
 
 
@@ -1031,4 +1040,5 @@ Page {
              }
         }
     }
+
 }
