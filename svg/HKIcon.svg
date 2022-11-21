@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 67.733332 67.733335"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="HKIcon.svg"
+   inkscape:export-filename="D:\QtProjekte\02Heizung\HKVentil\png\HKIcon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="1.8116735"
+     inkscape:cx="149.30947"
+     inkscape:cy="146.54959"
+     inkscape:window-width="2560"
+     inkscape:window-height="1377"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path850-5"
+       style="fill:#808080;fill-opacity:1;stroke:#808080;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       d="m 17.339281,14.880354 c -1.305717,0 -2.356962,1.051246 -2.356962,2.356962 V 28.568924 A 14.766053,14.713354 0 0 0 5.7937422,39.653002 14.766053,14.713354 0 0 0 17.40801,56.703641 l 1.118278,0.180351 a 14.766053,14.713354 0 0 0 16.415536,-12.53412 14.766053,14.713354 0 0 0 -2.07481,-9.830924 h 28.03912 c 1.30571,0 2.35696,-1.051245 2.35696,-2.356962 v -14.92467 c 0,-1.305716 -1.05125,-2.356962 -2.35696,-2.356962 z" />
+    <path
+       id="path850"
+       style="fill:#ffccaa;fill-opacity:1;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       d="m 14.704877,16.429903 c -1.305717,0 -2.356962,1.051245 -2.356962,2.356962 V 30.118472 A 14.766053,14.713354 0 0 0 3.1593402,41.202551 14.766053,14.713354 0 0 0 14.773607,58.253189 l 1.118278,0.180351 A 14.766053,14.713354 0 0 0 32.30742,45.899421 14.766053,14.713354 0 0 0 30.232611,36.068496 h 28.039115 c 1.305716,0 2.356961,-1.051245 2.356961,-2.356961 v -14.92467 c 3e-6,-1.305717 -1.051245,-2.356962 -2.356961,-2.356962 z" />
+    <path
+       sodipodi:type="star"
+       style="fill:none;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       id="path844"
+       inkscape:flatsided="false"
+       sodipodi:sides="4"
+       sodipodi:cx="183.2486"
+       sodipodi:cy="84.110916"
+       sodipodi:r1="47.564896"
+       sodipodi:r2="9.7484531"
+       sodipodi:arg1="1.1071486"
+       sodipodi:arg2="2.0838012"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 204.52027,126.65425 178.46408,92.604487 140.70526,105.38259 174.75503,79.326399 161.97692,41.567583 188.03311,75.617346 225.79193,62.839243 191.74217,88.895433 Z"
+       transform="matrix(0.26458333,0,0,0.26458333,-30.977509,21.738003)"
+       inkscape:transform-center-x="3.7692983"
+       inkscape:transform-center-y="1.2665944" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000006;stroke-width:1.34466;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="rect3706"
+       width="66.38868"
+       height="66.38868"
+       x="0.67233002"
+       y="0.6723271"
+       ry="1.3153356" />
+  </g>
+</svg>
