@@ -59,9 +59,7 @@ Page {
     // Temperatur values
     function getVorlauftemperatur(yv){
         var vt = 0.0
-
         vt = 5 * yv + 20
-
         return vt
     }
 
@@ -79,6 +77,44 @@ Page {
         summerspin.value = tx
         tempsummer = tx
     }
+
+    function convertGradToValue(gc){
+
+
+        var xt = graph.width/10         //  20°C    -> 1    ->  36 px
+        var x0 = graph.width/2          //  0°C     -> 5    -> 180 px
+        var x10 = graph.width           // -25°C    -> 10   -> 360 px
+        var xv = graph.width/10/5       //          -> 0.2
+        var x1c = graph.width/50       //  1°C      -> 0.2  -> 7.2 px
+
+
+        var xval = getXValue( x0 - x1c * gc )
+
+        return xval
+
+    }
+
+    function getMaxVorlauftemperatur(gc){
+
+        var value = convertGradToValue(gc)
+
+        mn = steigung()
+        bn = yAchsenAbschnitt()
+
+        var max = mn * value + bn
+        var vmax = getVorlauftemperatur(max)
+
+//        console.log( "Value X: " + value)
+//        console.log( "Max Y: " + max)
+//        console.log( "Max T: " +  getVorlauftemperatur(max))
+//        console.log( "mn: " + mn)
+//        console.log( "bn: " + bn)
+//        console.log( "XF: " + xf)
+//        console.log( "AT: " + getAussentemperatur( getCrossXValue(xf)))
+
+        return vmax
+    }
+
     //!---------------------------
 
     // crossrect values
@@ -279,6 +315,7 @@ Page {
 
         tagspin.value = temptag
         updateSummerTemp()
+
 
 
         bn = yAchsenAbschnitt()

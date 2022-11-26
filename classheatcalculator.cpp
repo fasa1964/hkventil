@@ -81,7 +81,7 @@ ClassHeatCalculator::ClassHeatCalculator(QObject *parent)
     p3.setX(360);
     p3.setY(90);
 
-    linearFunction(200);
+    //linearFunction(200);
 
     // Settings
     vorlaufTemp = 15;
@@ -96,18 +96,29 @@ ClassHeatCalculator::ClassHeatCalculator(QObject *parent)
 
     processTimer = new QTimer();
     processTimer->setInterval(5000);
+    processTimer->stop();
 
-    heatupTimer = new QTimer();
-    heatupTimer->setInterval(1500);
-    heatupTimer->stop();
+    heatUpVorlaufTimer = new QTimer();
+    heatUpVorlaufTimer->setInterval(1500);
+    heatUpVorlaufTimer->stop();
 
-    heatupRuecklaufTimer = new QTimer();
-    heatupRuecklaufTimer->setInterval(2250);
-    heatupRuecklaufTimer->stop();
+    heatDownVorlaufTimer = new QTimer();
+    heatDownVorlaufTimer->setInterval(3500);
+    heatDownVorlaufTimer->stop();
+
+    heatUpRuecklaufTimer = new QTimer();
+    heatUpRuecklaufTimer->setInterval(2250);
+    heatUpRuecklaufTimer->stop();
+
+    heatDownRuecklaufTimer = new QTimer();
+    heatDownRuecklaufTimer->setInterval(2250);
+    heatDownRuecklaufTimer->stop();
 
     connect(processTimer, &QTimer::timeout, this, &ClassHeatCalculator::processTimeOut);
-    connect(heatupTimer, &QTimer::timeout, this, &ClassHeatCalculator::heatupTimeOut);
-    connect(heatupRuecklaufTimer, &QTimer::timeout, this, &ClassHeatCalculator::heatupRuecklaufTempOut);
+    connect(heatUpVorlaufTimer, &QTimer::timeout, this, &ClassHeatCalculator::heatUpVorlauf);
+    connect(heatDownVorlaufTimer, &QTimer::timeout, this, &ClassHeatCalculator::heatDownVorlauf);
+    connect(heatUpRuecklaufTimer, &QTimer::timeout, this, &ClassHeatCalculator::heatUpRuecklauf);
+    connect(heatDownRuecklaufTimer, &QTimer::timeout, this, &ClassHeatCalculator::heatDownRuecklauf);
 
 }
 
@@ -156,9 +167,13 @@ void ClassHeatCalculator::setBetriebsStundenGas(int value)
 
 void ClassHeatCalculator::startHeatProcess()
 {
+    if(processTimer->isActive())
+        return;
+
     currentProcessIndex = 0;
     setCurrentHeatProcess( processMap.values().at( currentProcessIndex)  );
-    processTimer->start();
+    if(!processTimer->isActive())
+        processTimer->start();
 }
 
 void ClassHeatCalculator::stopHeatProcess()
@@ -168,21 +183,52 @@ void ClassHeatCalculator::stopHeatProcess()
 }
 
 
-void ClassHeatCalculator::stopHeatupTimer()
+void ClassHeatCalculator::stopHeatUpVorlauf()
 {
-    if(heatupTimer->isActive())
-        heatupTimer->stop();
+    if(heatUpVorlaufTimer->isActive())
+        heatUpVorlaufTimer->stop();
 }
 
-void ClassHeatCalculator::stopHeatupRuecklaufTimer()
+void ClassHeatCalculator::stopHeatUpRuecklauf()
 {
-    heatupRuecklaufTimer->stop();
+    if(heatUpRuecklaufTimer->isActive())
+        heatUpRuecklaufTimer->stop();
 }
 
-void ClassHeatCalculator::startHeatupTimer()
+void ClassHeatCalculator::stopHeatDownRuecklauf()
 {
-    if(!heatupTimer->isActive())
-        heatupTimer->start();
+    if(heatDownRuecklaufTimer->isActive())
+        heatDownRuecklaufTimer->stop();
+}
+
+void ClassHeatCalculator::startHeatUpRuecklauf()
+{
+    if(!heatUpRuecklaufTimer->isActive())
+        heatUpRuecklaufTimer->start();
+}
+
+void ClassHeatCalculator::startHeatDownRuecklauf()
+{
+    if(!heatDownRuecklaufTimer->isActive())
+        heatDownRuecklaufTimer->start();
+}
+
+void ClassHeatCalculator::startHeatUpVorlauf()
+{
+    if(!heatUpVorlaufTimer->isActive())
+        heatUpVorlaufTimer->start();
+}
+
+void ClassHeatCalculator::stopHeatDownVorlauf()
+{
+    if(heatDownVorlaufTimer->isActive())
+        heatDownVorlaufTimer->stop();
+}
+
+void ClassHeatCalculator::startHeatDownVorlauf()
+{
+    if(!heatDownVorlaufTimer->isActive())
+        heatDownVorlaufTimer->start();
 }
 
 void ClassHeatCalculator::setHeatVorlaufTemperatur(int value)
@@ -198,14 +244,14 @@ void ClassHeatCalculator::setHeatRuecklaufTemperatur(int value)
 void ClassHeatCalculator::setRoomTemperatur(int value)
 {
     roomTemperatur = value;
-    if(roomTemperatur > 15){
-        if(!heatupRuecklaufTimer->isActive())
-        heatupRuecklaufTimer->start();
+    if(roomTemperatur > 17){
+        if(!heatUpRuecklaufTimer->isActive())
+            heatUpRuecklaufTimer->start();
     }
 
     if(m_ruecklaufTemperatur >= m_vorlaufTemperatur){
-        if(heatupRuecklaufTimer->isActive())
-            heatupRuecklaufTimer->stop();
+        if(heatUpRuecklaufTimer->isActive())
+            heatUpRuecklaufTimer->stop();
     }
 
 }
@@ -302,10 +348,11 @@ void ClassHeatCalculator::setCurrentHeatProcess(const QString &newCurrentHeatPro
         }
         if(m_currentHeatProcess == "Flammenbildung"){
             emit startFlameSystem();
-            //heatupTimer->start();
+            //heatUpVorlaufTimer->start();
         }
         if(m_currentHeatProcess == "Umwälzpumpe an"){
             emit startPump();
+
         }
     }
 }
@@ -321,28 +368,27 @@ void ClassHeatCalculator::processTimeOut()
     }
 }
 
-void ClassHeatCalculator::heatupTimeOut()
+void ClassHeatCalculator::heatUpVorlauf()
 {
     int temp = m_vorlaufTemperatur + 1;
     setVorlaufTemperatur(temp);
-
-
-
-//    if( m_vorlaufTemperatur >= maxVorlaufTemperatur || m_ruecklaufTemperatur + 5 <= m_vorlaufTemperatur){
-//        heatupRuecklaufTimer->start();
-//        qDebug() << "starting timer";
-//    }
-
-//    if(m_ruecklaufTemperatur == m_vorlaufTemperatur){
-//        heatupRuecklaufTimer->stop();
-//        qDebug() << "stop timer";
-//    }
-
 }
 
-void ClassHeatCalculator::heatupRuecklaufTempOut()
+void ClassHeatCalculator::heatDownVorlauf()
+{
+    int temp = m_vorlaufTemperatur - 1;
+    setVorlaufTemperatur(temp);
+}
+
+void ClassHeatCalculator::heatUpRuecklauf()
 {
     int temp = m_ruecklaufTemperatur + 1;
+    setRuecklaufTemperatur(temp);
+}
+
+void ClassHeatCalculator::heatDownRuecklauf()
+{
+    int temp = m_ruecklaufTemperatur - 1;
     setRuecklaufTemperatur(temp);
 }
 
@@ -393,7 +439,7 @@ void ClassHeatCalculator::setVorlaufTemperatur(int newVorlaufTemperatur)
         setDichte(density);
 
         if(m_vorlaufTemperatur >= maxVorlaufTemperatur){
-            //heatupTimer->stop();
+            //heatUpVorlaufTimer->stop();
             m_vorlaufTemperatur = maxVorlaufTemperatur;
         }
     }
@@ -448,26 +494,20 @@ double ClassHeatCalculator::calculateGasConsum()
     return qm;
 }
 
-int ClassHeatCalculator::linearFunction(int x)
-{
-    // m = Steigung; n = y (Abschnit) start
-    // f(x) = m * x + n
-    int vt = 0;
+//int ClassHeatCalculator::linearFunction(int x)
+//{
+//    // m = Steigung; n = y (Abschnit) start
+//    // f(x) = m * x + n
+//    int vt = 0;
 
-    int n = 0; //p1.x();
-    int m = p3.y()/p3.x();
-
-
-    vt = m * x + n;
-
-    qDebug() << vt;
+//    int n = 0; //p1.x();
+//    int m = p3.y()/p3.x();
 
 
+//    vt = m * x + n;
 
-
-
-    return vt;
-}
+//    return vt;
+//}
 
 void ClassHeatCalculator::createProcessMap()
 {

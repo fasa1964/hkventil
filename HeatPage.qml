@@ -51,10 +51,11 @@ Page {
         soll.value = 4
         stopHeat()
         stopFlame()
+        stopPump()
         calculator.setHeatVorlaufTemperatur(15)
         calculator.setHeatRuecklaufTemperatur(15)
-        calculator.stopHeatupTimer()
-        calculator.stopHeatupRuecklaufTimer()
+        calculator.stopHeatUpVorlauf()
+        calculator.stopHeatUpRuecklauf()
 
     }
 
@@ -77,7 +78,8 @@ Page {
         heatlights = true
         //light.color = "red"
         heatTimer.start();
-        particleAge.lifeLeft = 1000
+        //particleAge.lifeLeft = 1000
+        startHouseParticle()
         particleSystem.start()
 
         //motorTimer.start()
@@ -90,13 +92,27 @@ Page {
         //light.color = "gray"
         heatTimer.stop();
 
-        particleAge.lifeLeft = 0
+        //particleAge.lifeLeft = 0
+        stopHouseParticle()
         motorTimer.stop()
         calculator.stopHeatProcess()
-        calculator.stopHeatupTimer()
-        calculator.stopHeatupRuecklaufTimer()
-        stopPump()
+
+        calculator.stopHeatUpVorlauf()
+        calculator.stopHeatDownVorlauf()
+
+        calculator.stopHeatUpRuecklauf()
+        calculator.stopHeatDownRuecklauf()
+        //calculator.stopHeatUpRuecklauf()
+        //stopPump()
         //particleSystem.stop()
+    }
+
+    function startHouseParticle(){
+        particleAge.lifeLeft = 1000
+    }
+
+    function stopHouseParticle(){
+        particleAge.lifeLeft = 0
     }
 
     function startFlame(){
@@ -105,9 +121,13 @@ Page {
 
     function stopFlame(){
         flameAge.lifeLeft = 0
+        calculator.stopHeatProcess()
+        stopMotor()
     }
 
     function startMotor(){  motorTimer.start()  }
+
+    function stopMotor(){  motorTimer.stop()  }
 
     function startPump() {  pumplights = true  }
 
@@ -165,13 +185,46 @@ Page {
     }
 
     function test(){
-        tempInner += 1
+
+        if(tempInner < 22)
+            tempInner += 1
+        else
+            tempInner += 0.5
+
         calculator.setRoomTemperatur(tempInner)
+
+        if( calculator.vorlaufTemperatur >=  maxVorlaufTemperatur  ){
+            //stopHeat()
+            // start to downgrade the vorlaufTemperatur
+            calculator.stopHeatProcess()
+            calculator.startHeatDownVorlauf()
+            calculator.stopHeatUpVorlauf()
+            stopFlame()
+        }
+
+        if(calculator.ruecklaufTemperatur >= calculator.vorlaufTemperatur-5 ){
+
+            calculator.startHeatProcess()
+            //calculator.startHeatUpVorlauf()
+            calculator.startHeatDownRuecklauf()
+
+        }
+
+        if(calculator.ruecklaufTemperatur <= innerTemo){
+            calculator.stopHeatDownRuecklauf()
+            calculator.stopHeatDownVorlauf()
+        }
+
 
         if(tempInner >= tempSoll){
             stopHeat()
             stopFlame()
+            stopPump()
+            calculator.stopHeatUpRuecklauf()
+            calculator.stopHeatDownRuecklauf()
         }
+
+        maxVorlaufTemperatur =  heatcurve.getMaxVorlauftemperatur(tempOuter)
 
     }
 
@@ -180,8 +233,10 @@ Page {
 
     // Settings value for temperature
     property int tempOuter: 1
-    property int tempInner: 12
+    property real tempInner: 12
     property int tempSoll: soll.value
+    property int tempSummer: heatcurve.tempsummer
+    property int maxVorlaufTemperatur: 55
 
     // Anim
     property int motorangle: 0
@@ -407,26 +462,36 @@ Page {
         anchors.left: parent.left
         anchors.leftMargin: 10
         from: 4
-        to: 28
+        to: 32
         stepSize: 1
         onValueChanged: {
 
-            if(tempSoll > tempInner){
-                //startHeat();
-                //motorTimer.start()
-                heatlights = true
-                if(!heatprocess){
-                    calculator.startHeatProcess()
-                    heatprocess = true
-                }
-            }
+            if(tempOuter < tempSummer){
 
-            if(tempSoll < tempInner){
-                stopHeat();
-                stopFlame();
-                calculator.stopHeatupTimer()
-                heatprocess = false
-                //calculator.stopHeatProcess()
+                if(tempSoll > tempInner){
+                    //startHeat();
+                    //motorTimer.start()
+                    heatlights = true
+
+                    maxVorlaufTemperatur =  heatcurve.getMaxVorlauftemperatur(tempOuter)
+
+//                    console.log("AT:" + tempOuter)
+//                    console.log("MAX:" + maxVorlaufTemperatur)
+
+                    if(!heatprocess){
+                        calculator.startHeatProcess()
+                        heatprocess = true
+                    }
+                }
+
+                if(tempSoll < tempInner){
+                    stopHeat();
+                    stopFlame();
+                    calculator.stopHeatUpVorlauf()
+                    heatprocess = false
+                    //calculator.stopHeatProcess()
+                }
+
             }
 
         }
@@ -536,7 +601,7 @@ Page {
         anchors.left: brenner.left
         anchors.leftMargin: 15
         color: "steelblue"
-        font.pointSize: textsize
+        font.pointSize: android ? textsize+1 : textsize
     }
 
 //    Image {
@@ -669,7 +734,13 @@ Page {
                 buttontext: "ok"
                 height: 30
                 width: 35
-                onButtonClicked: { tempOuter = out.value; outsiiderect.visible = false  }
+                onButtonClicked: {
+                    tempOuter = out.value;
+                    outsiiderect.visible = false
+
+                    maxVorlaufTemperatur =  heatcurve.getMaxVorlauftemperatur(tempOuter)
+
+                }
             }
         }
     }

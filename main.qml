@@ -25,7 +25,7 @@ Window {
         onStartParticleSystem: { heatpage.startHeat()  }
         onStartFlameSystem: {   heatpage.startFlame()  }
         onStartSpuelen: {   heatpage.startMotor()   }
-        onStartPump: {   heatpage.startPump(); calculator.startHeatupTimer() }
+        onStartPump: {   heatpage.startPump(); calculator.startHeatUpVorlauf() }
     }
 
     SwipeView {
@@ -124,6 +124,9 @@ Window {
        calculator.setGasWirkungsgrad(98.0);
 
        heatcurve.setupProperties()
+
+
+       //console.log(heatcurve.tempsummer)
 
    }
 

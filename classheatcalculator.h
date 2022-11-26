@@ -48,9 +48,16 @@ public:
     Q_INVOKABLE void stopHeatProcess();
 
 
-    Q_INVOKABLE void stopHeatupTimer();
-    Q_INVOKABLE void stopHeatupRuecklaufTimer();
-    Q_INVOKABLE void startHeatupTimer();
+    Q_INVOKABLE void stopHeatUpVorlauf();
+    Q_INVOKABLE void startHeatUpVorlauf();
+
+    Q_INVOKABLE void stopHeatDownVorlauf();
+    Q_INVOKABLE void startHeatDownVorlauf();
+
+    Q_INVOKABLE void stopHeatUpRuecklauf();
+    Q_INVOKABLE void stopHeatDownRuecklauf();
+    Q_INVOKABLE void startHeatUpRuecklauf();
+    Q_INVOKABLE void startHeatDownRuecklauf();
 
     Q_INVOKABLE void setHeatVorlaufTemperatur(int value);
     Q_INVOKABLE void setHeatRuecklaufTemperatur(int value);
@@ -110,8 +117,10 @@ signals:
 private slots:
 
     void processTimeOut();
-    void heatupTimeOut();
-    void heatupRuecklaufTempOut();
+    void heatUpVorlauf();
+    void heatDownVorlauf();
+    void heatUpRuecklauf();
+    void heatDownRuecklauf();
 
 private:
 
@@ -165,15 +174,17 @@ private:
     QPoint p3;
 
 
-    int linearFunction(int x);
+    //int linearFunction(int x);
 
     QMap<int, QString> processMap;
 
     int currentProcessIndex;
     void createProcessMap();
     QTimer *processTimer;
-    QTimer *heatupTimer;            // Erwärmt die Vorlauftemperatur
-    QTimer *heatupRuecklaufTimer;   // Erwärmt die Rücklauftemperatur
+    QTimer *heatUpVorlaufTimer;            // Erwärmt die Vorlauftemperatur
+    QTimer *heatDownVorlaufTimer;          // Kühlt die Vorlauftemperatur
+    QTimer *heatUpRuecklaufTimer;          // Erwärmt die Rücklauftemperatur
+    QTimer *heatDownRuecklaufTimer;        // Kühlt die Rücklauftemperatur
 
 
 };
