@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
+
 Page {
     id: pumppage
     objectName: qsTr("Pump")
@@ -18,6 +19,21 @@ Page {
         font.pointSize: captionsize
         font.letterSpacing: 2
         color: "white" // Blue Jay
+
+
+        MouseArea{
+            anchors.fill: parent
+            onDoubleClicked: {
+
+                var component = Qt.createComponent("FFormula.qml")
+                var object = component.createObject(pumppage)
+                object.x = 30
+                object.y = 110
+                object.image = "/svg/formpumpe.svg"
+                object.caption = "Förderhöhe"
+            }
+        }
+
     }
 
     Rectangle{
@@ -72,20 +88,18 @@ Page {
         anchors.left: parent.left
         anchors.margins: 20
 
-        Text { text: qsTr("R:"); color: "white"; font.pointSize: root.textsize }
-        FSpinBox { id: r; value: 120; onValueChaned: { resultConveyorHeight() } }
-        Text { text: qsTr("Pa/m"); color: "white"; font.pointSize: root.textsize }
+        Text { text: qsTr("R:"); height: 24; color: "white"; font.pointSize: root.textsize }
+        FSpinBox { id: r; value: 120; height: 24; onValueChaned: { resultConveyorHeight() } }
+        Text { text: qsTr("Pa/m"); height: 24; color: "white"; font.pointSize: root.textsize }
 
-        Text { text: qsTr("L:"); color: "white"; font.pointSize: root.textsize }
-        FSpinBox { id: l; value: 75  ; onValueChaned: { resultConveyorHeight()  } }
-        Text { text: qsTr("m"); color: "white"; font.pointSize: root.textsize }
-
-
+        Text { text: qsTr("L:"); height: 24; color: "white"; font.pointSize: root.textsize }
+        FSpinBox { id: l; value: 75  ;  height: 24; onValueChaned: { resultConveyorHeight()  } }
+        Text { text: qsTr("m"); height: 24;color: "white"; font.pointSize: root.textsize }
 
         // Berechnete Förderhöhe
-        Text { text: qsTr("ZF:"); color: "white"; font.pointSize: root.textsize }
-        FSpinBox { id: zf; floatvalue: 2.3; realvalue: true; onValueChaned: {  resultConveyorHeight()  }  }
-        Text { text: qsTr("--"); color: "white"; font.pointSize: root.textsize }
+        Text { text: qsTr("ZF:"); height: 24; color: "white"; font.pointSize: root.textsize }
+        FSpinBox { id: zf; floatvalue: 2.3; height: 24; realvalue: true; onValueChaned: {  resultConveyorHeight()  }  }
+        Text { text: qsTr("--"); height: 24; color: "white"; font.pointSize: root.textsize }
 
 
         Text { text: qsTr("Conveyor height:"); color: "white"; font.pointSize: root.textsize }
@@ -97,9 +111,9 @@ Page {
         Text { text: qsTr("hPa"); color: "white"; font.pointSize: root.textsize }
 
 
-        Text { text: qsTr("Heat power:"); color: "white"; font.pointSize: root.textsize }
-        FSpinBox { id: hp; floatvalue: heatpage.heatpower; realvalue: true; onValueChaned: {   }  }
-        Text { text: qsTr("kW"); color: "white"; font.pointSize: root.textsize }
+        Text { text: qsTr("Heat power:"); color: "white"; height: 24; font.pointSize: root.textsize }
+        FSpinBox { id: hp; floatvalue: heatpage.heatpower; height: 24; realvalue: true; onValueChaned: {   }  }
+        Text { text: qsTr("kW"); color: "white"; height: 24;font.pointSize: root.textsize }
 
         Text { text: qsTr("Temp. difference:"); color: "white"; font.pointSize: root.textsize }
         Text { text: calculator.deltaTeta; color: "#2B547E"; font.pointSize: root.textsize+2 }
@@ -167,13 +181,72 @@ Page {
     }
 
 
-    Image {
-        id: kennlinie
-        source: "/png/Kennlinie.png"
+    property int slidervalue: 150
+    property real scalefactor: 1.0
+    property int mousex: 0
+
+
+    Rectangle{
+        id: imagrect
         width: parent.width
+        height: kennlinie.height
         anchors.top: linkgrid.bottom
         anchors.topMargin: 10
-        fillMode: Image.PreserveAspectFit
+
+        ToolButton{
+            id: cancelScale
+            text: "X"
+            width: 40; height: 40
+            z:2
+            onClicked: {
+                scalefactor = 1
+                xslider.value = 50
+
+            }
+
+        }
+
+        FGSlider{
+            id: xslider
+            width: parent.width-40
+            x:20
+            z:2
+            from: 0
+            to: 100
+            stepSize: 1
+            value: 50 //kennlinie.width
+            anchors.bottom: parent.bottom
+            onValueChanged: {
+
+                var p = kennlinie.width/100 * xslider.value                
+                kennlinie.x = p - kennlinie.width/2
+            }
+
+        }
+
+        Image {
+            id: kennlinie
+            source: "/png/Kennlinie.png"
+            width: parent.width
+            fillMode: Image.PreserveAspectFit
+            scale: scalefactor
+            x: mousex
+
+            MouseArea{
+                anchors.fill: parent
+                onDoubleClicked: {
+                    scalefactor += 0.1
+
+                    mousex = mouseX
+                    //mousey = mouseY
+                }
+
+            }
+
+        }
+
+
     }
+
 
 }

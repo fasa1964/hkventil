@@ -11,7 +11,7 @@ Page {
     }
 
     property bool heatprocess: false
-    property real heatpower: kw.floatvalue
+    property int heatpower: 15
 
     property bool heatlights: false
     property bool pumplights: false
@@ -116,11 +116,13 @@ Page {
     }
 
     function startFlame(){
-        flameAge.lifeLeft = 1000
+        //flameAge.lifeLeft = 1000
+        flameemitter.lifeSpan = 1013
     }
 
     function stopFlame(){
-        flameAge.lifeLeft = 0
+        //flameAge.lifeLeft = 0
+        flameemitter.lifeSpan = 0
         calculator.stopHeatProcess()
         stopMotor()
     }
@@ -153,8 +155,6 @@ Page {
     function oilConsum(){
 
         var liter = 0.0
-
-
         var kwh = oilquantity.floatvalue                    // kWh/l
         var c = 1.163                                       // Wh/(kgxK)
         var flowrate = pumppage.flowRate() * 1000 / 60      // m3/h
@@ -186,9 +186,9 @@ Page {
 
     function test(){
 
-        if(tempInner < 22)
-            tempInner += 1
-        else
+//        if(tempInner < 22)
+//            tempInner += 1
+//        else
             tempInner += 0.5
 
         calculator.setRoomTemperatur(tempInner)
@@ -251,6 +251,19 @@ Page {
         font.pointSize: captionsize
         font.letterSpacing: 2
         color: "#2B547E" // Blue Jay
+
+        MouseArea{
+            anchors.fill: parent
+            onDoubleClicked: {
+
+                var component = Qt.createComponent("FFormula.qml")
+                var object = component.createObject(heatpage)
+                object.x = 30
+                object.y = 110
+                object.image = "/svg/formwmenge.svg"
+                object.caption = "Wärmemenge"
+            }
+        }
     }
 
     // Caption line
@@ -285,7 +298,7 @@ Page {
         Text { text: qsTr("°C"); color: "gray"; font.pointSize: root.textsize }
         // Wärmebedarf
         Text { text: qsTr("Required heat DIN EN 12831:"); color: "gray"; font.pointSize: root.textsize }
-        FSpinBox { id: kw;  height: 24; floatvalue: 15.0; realvalue: true; onValueChaned: {  calculator.setSystemWaermebedarf ( kw.floatvalue.toFixed(2))  }  }
+        FSpinBox { id: kw;  height: 24; value: heatpower /*15.0*/; onValueChaned: {  heatpower = kw.value;  calculator.setSystemWaermebedarf ( kw.value )  }  }
         Text { text: qsTr("kW"); color: "gray"; font.pointSize: root.textsize }
         Text { text: qsTr("Temp. difference:"); color: "gray"; font.pointSize: root.textsize }
         Text { text: calculator.deltaTeta; color: "#2B547E"; font.pointSize: root.textsize+2 }
@@ -405,7 +418,7 @@ Page {
 
             // Wirkungsgrad
             Text { text: qsTr("Efficiency:"); color: "gray"; font.pointSize: root.textsize }
-            FSpinBox { id: gasefficiency ; height: 24 ; handlecolor: "#FFDF00" ;floatvalue: 97.0; realvalue: true; onValueChaned: { calculator.setGasWirkungsgrad( gasefficiency.floatvalue )   }  }
+            FSpinBox { id: gasefficiency ; height: 24 ; handlecolor: "#FFDF00" ;floatvalue: 98.0; realvalue: true; onValueChaned: { calculator.setGasWirkungsgrad( gasefficiency.floatvalue )   }  }
             Text { text: qsTr("%"); color: "gray"; font.pointSize: root.textsize }
 
             // Gasverbrauch
@@ -554,7 +567,7 @@ Page {
         width: parent.width/5 // 70
         fillMode: Image.PreserveAspectFit
         anchors.left: house.right
-        anchors.leftMargin: 0
+        anchors.leftMargin: -15
         anchors.bottom: house.bottom
 
         Image {
@@ -573,11 +586,12 @@ Page {
     }
 
     Text {
-        id: heatpower
+        id: heatpowertext
         text: heatPower() + " kW"
         anchors.top: house.top
         anchors.topMargin: -5
         anchors.left: heattempb.left
+        anchors.leftMargin: 25
         font.pointSize: textsize + 1
         color: "red"
     }
@@ -604,17 +618,6 @@ Page {
         font.pointSize: android ? textsize+1 : textsize
     }
 
-//    Image {
-//        id: motor
-//        source: "/svg/motor.svg"
-//        width: brenner.height // 70
-//        fillMode: Image.PreserveAspectFit
-//        anchors.left: brenner.left
-//        anchors.bottom: brenner.bottom
-//        anchors.leftMargin: 0
-//        anchors.bottomMargin: 0
-//        rotation: motorangle
-//    }
 
     // Heat-Temperature forwards
     Text {
@@ -647,6 +650,7 @@ Page {
         font.pointSize: textsize + 3
 
     }
+
 
     Image {
         id: pipe
@@ -820,63 +824,109 @@ Page {
     }
     // ! Heating particle
 
+
+
+    // Flame Particle
+    Rectangle{
+        id: flamerect
+        width: 100
+        height: brenner.height/2
+        border.color: "transparent"
+        color: "transparent"
+        x: brenner.x + brenner.width - 35
+        y: brenner.y + flamerect.height/2
+
+        ParticleSystem{
+            id: flameSystem
+        }
+
+        Emitter{
+            id: flameemitter
+            anchors.centerIn: parent
+            width: parent.width-50
+            height: parent.height-50
+            system: flameSystem
+
+            emitRate: 240
+            lifeSpan: 1013
+            size: 12
+            endSize: 28
+            sizeVariation: 5
+
+            velocity: AngleDirection{
+                angle: 360
+                magnitude: 60
+            }
+        }
+
+        ImageParticle{
+            id: imageparticle
+            source: "qrc:///particleresources/glowdot.png"
+            system: flameSystem
+            color: "#DAEE01"
+            colorVariation: 0.16
+
+        }
+    }
+
+
     // Flame particle
-    ParticleSystem {
-        id: flameSystem
-        running: true
-    }
+//    ParticleSystem {
+//        id: flameSystem
+//        running: true
+//    }
 
-    Emitter {
-          id: flame
-          //anchors.centerIn: house
-          anchors.left: brenner.right
-          y: brenner.y + brenner.height/3
-          x: brenner.x + brenner.width
-          width: brenner.width/2;
-          height: 30 // brenner.height/2
-          system: flameSystem
-          emitRate: 25
-          lifeSpan: 1000
-          lifeSpanVariation: 10
-          size: 8
-          endSize: 32
-          velocity: AngleDirection { angle: 360; magnitude: 30; magnitudeVariation: 5 }
-          //Tracer { color: 'green' }
-    }
+//    Emitter {
+//          id: flame
+//          //anchors.centerIn: house
+//          anchors.left: brenner.right
+//          y: brenner.y + brenner.height/3
+//          x: brenner.x + brenner.width
+//          width: brenner.width/2;
+//          height: 30 // brenner.height/2
+//          system: flameSystem
+//          emitRate: 50
+//          lifeSpan: 1013
+//          lifeSpanVariation: 10
+//          size: 16
+//          endSize: 20
+//          velocity: AngleDirection { angle: 360; magnitude: 100; magnitudeVariation: 5 }
+//          //Tracer { color: 'green' }
+//    }
 
-    ImageParticle {
-        id: flamePainter
-        system: flameSystem
-        groups: ['star']
-        source: "qrc:///particleresources/glowdot.png"
-        color: "#FFFF33"
-        entryEffect: ImageParticle.Scale
-        colorVariation: 0.2
-        rotation: 180
-    }
+//    ImageParticle {
+//        id: flamePainter
+//        system: flameSystem
+//        groups: ['star']
+//        source: "qrc:///particleresources/glowdot.png"
+//        color: "#FFFF33"
+//        entryEffect: ImageParticle.Scale
+//        colorVariation: 0.2
+//        rotation: 180
+//    }
 
-    TrailEmitter {
-        id: flameEmitter
-        system: flameSystem
-        emitHeight: 1
-        emitWidth: 4
-        group: 'smoke'
-        follow: 'star'
-        emitRatePerParticle: 96
-        velocity: AngleDirection { angle: tangle; magnitude: tmagnet; angleVariation: 5 }
-        lifeSpan: 500 + trailspan
-        size: 16
-        sizeVariation: 4
-        endSize: 1
-    }
+//    TrailEmitter {
+//        id: flameEmitter
+//        system: flameSystem
+//        emitHeight: 1
+//        emitWidth: 4
+//        group: 'smoke'
+//        follow: 'star'
+//        emitRatePerParticle: 96
+//        velocity: AngleDirection { angle: tangle; magnitude: tmagnet; angleVariation: 5 }
+//        lifeSpan: 500 + trailspan
+//        size: 16
+//        sizeVariation: 4
+//        endSize: 1
+//    }
 
-    Age{
-        id: flameAge
-        system: flameSystem
-        //groups: ['star']
-        once: true
-        lifeLeft: 1000
-        advancePosition: false
-    }
+//    Age{
+//        id: flameAge
+//        system: flameSystem
+//        //groups: ['star']
+//        once: true
+//        lifeLeft: 1000
+//        advancePosition: false
+//    }
 
 }

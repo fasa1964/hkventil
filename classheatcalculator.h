@@ -31,7 +31,8 @@ public:
     // Heat System
     Q_INVOKABLE void setSystemVorlaufTemp(int value);
     Q_INVOKABLE void setSystemRuecklaufTemp(int value);
-    Q_INVOKABLE void setSystemWaermebedarf(double value);
+    Q_INVOKABLE void setSystemWaermebedarf(int value);
+    //Q_INVOKABLE double getSystemWaermebedarf();
 
 
     // Heat Gas / Oil
@@ -131,7 +132,7 @@ private:
 
     int vorlaufTemp;        // Vorlauftemperatur in °C
     int ruecklaufTemp;      // Rücklauftemperatur in °C
-    double waermebedarf;    // Wärmebedarf in kW
+    int waermebedarf;    // Wärmebedarf in kW des Gebäudes
 
     // Oil heat
     double m_oilConsum;     // Ölverbrauch Liter/Jahr

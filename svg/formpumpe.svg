@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="400"
+   height="200"
+   viewBox="0 0 105.83333 52.916668"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="formpumpe.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="1.8116735"
+     inkscape:cx="211.68273"
+     inkscape:cy="136.61402"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:14.2054px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.355135"
+       x="7.9021974"
+       y="16.810984"
+       id="text3434"
+       transform="scale(0.91088345,1.0978353)"><tspan
+         sodipodi:role="line"
+         id="tspan3432"
+         style="stroke-width:0.355135"
+         x="7.9021974"
+         y="16.810984">H = R * L * ZF</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.30945px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.207737"
+       x="8.2104301"
+       y="31.256157"
+       id="text11258"
+       transform="scale(1.0329354,0.96811476)"><tspan
+         sodipodi:role="line"
+         id="tspan11256"
+         style="stroke-width:0.207737"
+         x="8.2104301"
+         y="31.256157">R = [Pa/m]</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.30945px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.207737"
+       x="8.783761"
+       y="41.117405"
+       id="text14190"
+       transform="scale(1.0329354,0.96811476)"><tspan
+         sodipodi:role="line"
+         id="tspan14188"
+         style="stroke-width:0.207737"
+         x="8.783761"
+         y="41.117405">L  = [m]</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:8.30945px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.207737"
+       x="7.6371017"
+       y="51.093323"
+       id="text24688"
+       transform="scale(1.0329354,0.96811476)"><tspan
+         sodipodi:role="line"
+         id="tspan24686"
+         style="stroke-width:0.207737"
+         x="7.6371017"
+         y="51.093323">ZF = [--]</tspan></text>
+  </g>
+</svg>

@@ -73,7 +73,7 @@ Page {
     }
 
     function updateSummerTemp(){
-        var tx = getAussentemperatur( getXValue(point1.x))
+        var tx = getAussentemperatur( getXValue(point1.x + pointsize/2))
         summerspin.value = tx
         tempsummer = tx
     }

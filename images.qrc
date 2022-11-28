@@ -15,5 +15,8 @@
         <file>svg/settings.svg</file>
         <file>resources/iconapp.rc</file>
         <file>icons/hkIcon.ico</file>
+        <file>FFormula.qml</file>
+        <file>svg/formwmenge.svg</file>
+        <file>svg/formpumpe.svg</file>
     </qresource>
 </RCC>

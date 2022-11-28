@@ -13,7 +13,7 @@ Rectangle {
 
     property int fontsize: control.height-12
     property int value: 55
-    property real floatvalue: 55.0
+    property double floatvalue: 0.0
 
     property string downcolor: "#008080" // Teal
     property bool downleft: false
@@ -22,7 +22,7 @@ Rectangle {
     property int digits: 1
     property string handlecolor: "lightgreen"
 
-    signal valueChaned(int val)
+    signal valueChaned(double val)
 
 
     function getValue(){

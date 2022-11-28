@@ -134,12 +134,20 @@ void ClassHeatCalculator::setSystemRuecklaufTemp(int value)
     setWmenge( calculateWMenge() );
 }
 
-void ClassHeatCalculator::setSystemWaermebedarf(double value)
+void ClassHeatCalculator::setSystemWaermebedarf(int value)
 {
     waermebedarf = value;
     setWmenge( calculateWMenge() );
     setOilConsum( calculateOilConsum() );
+    setGasConsum( calculateGasConsum() );
+
+    //qDebug() << value;
 }
+
+//double ClassHeatCalculator::getSystemWaermebedarf()
+//{
+//    return waermebedarf;
+//}
 
 void ClassHeatCalculator::setOilWaermemenge(double value)
 {
@@ -244,7 +252,7 @@ void ClassHeatCalculator::setHeatRuecklaufTemperatur(int value)
 void ClassHeatCalculator::setRoomTemperatur(int value)
 {
     roomTemperatur = value;
-    if(roomTemperatur > 17){
+    if(roomTemperatur > 16){
         if(!heatUpRuecklaufTimer->isActive())
             heatUpRuecklaufTimer->start();
     }

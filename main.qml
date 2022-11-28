@@ -18,7 +18,6 @@ Window {
     property int textsize: android ? 9 : 11
 
 
-
     Calculator{
         id: calculator
         objectName: "Calculator"
@@ -87,7 +86,6 @@ Window {
         }
     }
 
-
     Settings{
 
         property alias snapgrid: heatcurve.snaptogrid
@@ -101,6 +99,8 @@ Window {
         property alias ttemp: heatcurve.temptag
         property alias stemp: heatcurve.tempsummer
 
+        property alias heatkw: heatpage.heatpower
+
     }
 
 
@@ -112,7 +112,7 @@ Window {
 
        calculator.setSystemVorlaufTemp(55);
        calculator.setSystemRuecklaufTemp(35)
-       calculator.setSystemWaermebedarf(15.0)
+       calculator.setSystemWaermebedarf(heatpage.heatpower)
 
        calculator.setOilWaermemenge(10.0)
        calculator.setGasWaermemenge(9.8)

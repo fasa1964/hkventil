@@ -31,6 +31,7 @@ qt_add_qml_module(appHKVentil
         #ValvePage.qml
         #ResultPage.qml
         PumpPage.qml
+        FFormula.qml
         FSpinBox.qml
         FButton.qml
         FGButton.qml

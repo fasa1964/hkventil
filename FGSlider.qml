@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 Slider {
     id: control
-    value: slidervalue
+    //value: 0
     from: 60
     to: 1500
     stepSize: 1
