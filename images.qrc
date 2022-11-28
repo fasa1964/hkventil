@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>svg/house.svg</file>
+        <file>png/house.png</file>
+        <file>svg/brenner.svg</file>
+        <file>svg/pumpe.svg</file>
+        <file>svg/triangle.svg</file>
+        <file>svg/motor.svg</file>
+        <file>svg/pipe.svg</file>
+        <file>png/Kennlinie.png</file>
+        <file>HeatCurve.qml</file>
+        <file>png/HKIcon.png</file>
+        <file>svg/HKIcon.svg</file>
+        <file>svg/HKCurve.svg</file>
+        <file>svg/settings.svg</file>
+        <file>resources/iconapp.rc</file>
+        <file>icons/hkIcon.ico</file>
+        <file>FFormula.qml</file>
+        <file>svg/formwmenge.svg</file>
+        <file>svg/formpumpe.svg</file>
+    </qresource>
+</RCC>
