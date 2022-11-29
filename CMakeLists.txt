@@ -19,6 +19,7 @@ qt_add_executable(appHKVentil
     ClassHeatCalculator.cpp
     ClassHeatCalculator.h
     images.qrc
+    ${app_icon_resource_windows}
 )
 
 qt_add_qml_module(appHKVentil
@@ -39,6 +40,7 @@ qt_add_qml_module(appHKVentil
         FGSpinBox.qml
         FGCheckBox.qml
         FCurveSettings.qml
+
 )
 
 set_target_properties(appHKVentil PROPERTIES
